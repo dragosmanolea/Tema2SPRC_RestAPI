@@ -1,32 +1,13 @@
 from flask import Flask
-import pymongo
-
-def _get_db_client():
-    mongo = pymongo.MongoClient(
-        host = "localhost",
-        port = 27017,
-        serverSelectionTimeoutMS = 1000
-    )
-    db = mongo.sprc
-    return db
-
+from cities_api import cities_api
+from countries_api import countries_api
+from temperatures_api import temperatures_api
 
 app = Flask(__name__)
 
-@app.route("/", methods=['GET'])
-def hehe():
-    db_client = _get_db_client()
-    user = {
-        "name": "Dragos bossu",
-        "functie": "sofer de bmw"
-    }
-    try:
-        db_client.users.insert_one(user)
-    except Exception as e:
-        print(e)
-
-    return "boss"
-
+app.register_blueprint(cities_api)
+app.register_blueprint(countries_api)
+app.register_blueprint(temperatures_api)
 
 if __name__ == "__main__":
     app.run(port=8080, debug=True)
