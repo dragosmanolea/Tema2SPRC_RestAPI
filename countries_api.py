@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, Response, request
 import pymongo
 import json
 from bson import json_util
-from pymongo import response
+from pymongo import MongoClient
 
 countries_api = Blueprint('countries_api', __name__)
 
