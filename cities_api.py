@@ -19,9 +19,13 @@ def add_city():
     col = mongo['cities']
     counts = col.estimated_document_count()
     req_data = request.json
-    
+
     nume = req_data.get("nume", None)
-    req_data["id"] = counts + 1
+    idTara = req_data.get("idTara", None)
+    req_data["id"] = counts
+
+    if idTara is None:
+        return Response(status=400)
 
     if nume:
         check_if_exists = col.find_one({"nume": nume})
@@ -53,7 +57,7 @@ def get_cities():
 
     return Response(json.dumps(cities), status=200)
 
-@cities_api.route("/api/cities/coutry/<idTara>", methods=["GET"])
+@cities_api.route("/api/cities/country/<idTara>", methods=["GET"])
 def get_city_by_country(idTara):
     mongo = _get_db_client()
     col = mongo['cities']
@@ -109,6 +113,7 @@ def delete_city(id):
     mongo = _get_db_client()
     col = mongo['cities']
     mongo_result = col.find_one({"id": int(id)})
+
     if mongo_result:
         mongo.delete_one(mongo_result)
         return Response(status=200)

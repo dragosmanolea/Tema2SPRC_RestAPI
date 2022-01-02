@@ -30,7 +30,7 @@ def add_country():
             return Response(status=409)
         else:
             if object_to_add.get("lat") and object_to_add.get("lon"):
-                object_to_add["id"] = counts + 1
+                object_to_add["id"] = counts
                 mongo.insert_one(object_to_add)
                 return json_util.dumps({"id": counts}), 201
 
