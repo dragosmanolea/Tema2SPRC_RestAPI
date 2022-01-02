@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, Response, request
 import pymongo
 import json
+from bson import json_util
 
 def _get_db_client():
     mongo = pymongo.MongoClient(
@@ -30,8 +31,11 @@ def add_city():
         else:
             # add city
             if req_data.get("lat", None) and req_data.get("lon", None):
-                col.insert_one(req_data)
-                return json_util.dumps({"id": counts}), 201
+                if col.find_one({"id": counts}):
+                    req_data["id"] = counts * 1000 + 53 * counts % 23
+                else:
+                    col.insert_one(req_data)
+                    return json_util.dumps({"id": counts}), 201
  
     return Response(status=400)
 
