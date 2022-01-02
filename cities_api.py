@@ -128,7 +128,7 @@ def delete_city(id):
     mongo_result = col.find_one({"id": int(id)})
 
     if mongo_result:
-        mongo.delete_one(mongo_result)
+        col.delete_one(mongo_result)
         return Response(status=200)
 
     return Response(status=404)
