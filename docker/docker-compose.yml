@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  web:
+    build: .
+    ports:
+    - "6000:5000"
+    volumes:
+    - .:/opt
+    links:
+    - mongo
+  mongo:
+    image: mongo
+    hostname: sprc_mongodb
+    environment:
+      - MONGO_INITDB_DATABASE=sprc
+    ports:
+    - 27017:27017
