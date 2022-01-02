@@ -57,6 +57,19 @@ def get_cities():
 
     return Response(json.dumps(cities), status=200)
 
+@cities_api.route("/api/cities/country/", methods=["GET"])
+def get_city_by_country_with_no_id():
+    mongo = _get_db_client()
+    col = mongo['cities']
+    cities = []
+    response = col.find({}, {"_id": 0})
+
+    for it in response:
+        cities.append(it)
+
+    return Response(json.dumps(cities), status=200)
+
+
 @cities_api.route("/api/cities/country/<idTara>", methods=["GET"])
 def get_city_by_country(idTara):
     mongo = _get_db_client()

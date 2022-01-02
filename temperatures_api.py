@@ -25,7 +25,7 @@ def add_temperature():
     check_if_idOras_exists = mongo['cities'].find_one({"id": int(idOras)})
     
     if not check_if_idOras_exists:
-        return Response(status=400)
+        return Response(status=404)
 
     valoare = req_data.get("valoare", None)
     date = datetime.now().strftime("%Y-%m-%d")
